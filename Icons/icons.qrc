@@ -1,0 +1,12 @@
+<RCC>
+  <qresource prefix="icons">
+    <file>people.png</file>
+    <file>new-registration-icon.png</file>
+    <file>3405244.png</file>
+    <file>65000.png</file>
+    <file>Your paragraph text.png</file>
+    <file>488911000.png</file>
+    <file>48891100.png</file>
+    <file>4889110.png</file>
+  </qresource>
+</RCC>
