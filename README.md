@@ -31,6 +31,10 @@ Requirements:
         pip install sqlite3
         pip install bcrypt
 
+How to run:
 
+    After installing all the requirements just head over to 'main.py' and run the code.
+    username: Ahmed 
+    password: 12345678
 
 
