@@ -1,20 +1,20 @@
-import select
 import sys
 from PyQt6.QtWidgets import QMainWindow, QApplication, QMessageBox, QWidget, QLineEdit
 from PyQt6.uic.load_ui import loadUi
 from PyQt6.QtGui import QIcon
 from PyQt6.QtCore import pyqtSignal, QTimer
 from User import User 
-from Prof import readProfFromCsv
-from BST import BST
-from Prof_Prefrences_table import Table, handlePreferencesUpdated
-import time
+import os
 class MyGUI(QMainWindow):
     def __init__(self):
         super(MyGUI, self).__init__()
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        icon_path = os.path.join(current_dir, "icon.png")
         self.setWindowTitle("AcademIQ")
-        self.setWindowIcon(QIcon('icon.png'))
-        self.loadStylesheet("QSS-master\\MaterialDark.qss")
+        self.setWindowIcon(QIcon(icon_path))
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        stylesheet_path = os.path.join(current_dir, "QSS-master", "MaterialDark.qss")
+        self.loadStylesheet(stylesheet_path)
         self.welcome = WelcomeScreen(self)
         self.setCentralWidget(self.welcome)
         self.username = ''
@@ -35,7 +35,9 @@ class MyGUI(QMainWindow):
         self.setCentralWidget(self.login_ui)
 
     def loadApp(self, username, access):
-        self.load_ui("Main.ui")
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        ui_file_path = os.path.join(current_dir, "Main.ui")
+        self.load_ui(ui_file_path)
         self.access = access
         self.lockAccess()
         self.setupTabWidget()
@@ -179,18 +181,27 @@ class MyGUI(QMainWindow):
         else:
             QMessageBox.warning(self, 'User not found', 'The specified user does not exist.')
             
-        
+
     def changeThemeLight(self):
-        self.loadStylesheet("QSS-master\\Ubuntu.qss")
-        
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        stylesheet_path = os.path.join(current_dir, "QSS-master", "Ubuntu.qss")
+        self.loadStylesheet(stylesheet_path)
+
     def changeThemeAqua(self):
-        self.loadStylesheet("QSS-master\\ManjaroMix.qss")
-        
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        stylesheet_path = os.path.join(current_dir, "QSS-master", "ManjaroMix.qss")
+        self.loadStylesheet(stylesheet_path)
+
     def changeThemeDark(self):
-        self.loadStylesheet("QSS-master\\MaterialDark.qss")
-        
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        stylesheet_path = os.path.join(current_dir, "QSS-master", "MaterialDark.qss")
+        self.loadStylesheet(stylesheet_path)
+
     def changeThemeConsole(self):
-        self.loadStylesheet("QSS-master\\ConsoleStyle.qss")
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        stylesheet_path = os.path.join(current_dir, "QSS-master", "ConsoleStyle.qss")
+        self.loadStylesheet(stylesheet_path)
+
         
     def passwordModeChange(self, state):
         if state:
@@ -204,7 +215,9 @@ class MyGUI(QMainWindow):
 class WelcomeScreen(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
-        loadUi("welcome.ui", self)
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        ui_file_path = os.path.join(current_dir, "welcome.ui")
+        loadUi(ui_file_path, self)
         
         
 
@@ -212,7 +225,9 @@ class LoginUi(QWidget):
     login_successful = pyqtSignal(str, int)
     def __init__(self, parent = None):
         super().__init__(parent)
-        loadUi("Login.ui", self)
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        ui_file_path = os.path.join(current_dir, "Login.ui")
+        loadUi(ui_file_path, self)
         self.loginbutton.clicked.connect(self.login)
 
     def login(self):
@@ -224,38 +239,6 @@ class LoginUi(QWidget):
             self.login_successful.emit(username, access)
         else:
             QMessageBox.warning(self, 'Login', 'Invalid Username or Password')
-
-
-class AuthenticatedUi(QWidget):
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        loadUi("SearchGUI.ui", self)
-        self.searchbutton.clicked.connect(self.search)
-
-    def search(self):
-        fullname = self.searchinput.text().strip()  # Get the input and remove leading/trailing whitespace
-        if fullname == "":
-            QMessageBox.warning(self, 'Search Error', 'Please enter a professor name.')
-            return
-        
-        try:
-            name, surname = fullname.split(' ')
-        except ValueError:
-            QMessageBox.warning(self, 'Search Error', 'Please enter both first name and last name separated by a space.')
-            return 
-
-        prof_bst_name = BST()
-        prof_bst_id = BST()
-        prof_bst_id, prof_bst_name = readProfFromCsv()
-        prof = prof_bst_name.search(name, surname)
-
-        if prof is None:
-            QMessageBox.warning(self, 'Professor Not Found', 'The specified professor was not found.')
-        else:
-            preferences = prof.preferences
-            table = Table(preferences, prof.name, prof.surname, prof.age, prof.exp, prof.nbr_hours, prof.courses)
-            table.preferences_updated.connect(lambda preferences: handlePreferencesUpdated(prof_bst, prof, preferences))
-            table.show()
 
         
         

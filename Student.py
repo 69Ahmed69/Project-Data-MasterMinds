@@ -4,14 +4,6 @@ import csv
 from BST import BST
 class Student:
     generated_ids = []
-    STUDENT_PREFRENCES= (
-    (1, 2, 2, 1, 0),
-    (1, 2, 2, 1, 0),
-    (1, 2, 2, 0, 0),
-    (1, 2, 2, 1, 0),
-    (2, 2, 1, 0, 0),
-    (0, 0, 0, 0, 0),
-    )
     def __init__(self, id, name, surname, age, major_id, year, start_year, section, group):
         if id == 0:
             self.id = self.generateStudentId(start_year)
@@ -26,8 +18,9 @@ class Student:
         self.start_year = start_year
         self.section = section
         self.group = group
-        self.left = None
         self.right = None
+        self.left = None
+
     
     @staticmethod
     def generateStudentId(year):

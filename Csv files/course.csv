@@ -1,4 +1,4 @@
-id,name,profIDs
-4567,"Algorithms",64578,94123
-8974,"Networks",94123
-8942,"Real Analysis",15613
+id,name,cof,cour,td,tp
+4567,Algorithms 1 ING,6,2,1,1
+8974,Networks,3,1,1,0
+8942,Analyse 1 ING,6,2,2,0
